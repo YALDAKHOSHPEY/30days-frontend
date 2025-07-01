@@ -1,0 +1,73 @@
+body{
+margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  color: #111;
+}
+
+#clock {
+  font-size: 5rem;
+  letter-spacing: 6px;
+  padding: 40px 80px;
+  border-radius: 10px;
+  background-color: #111;
+  color: #ff2d2d;
+  box-shadow:
+    0 0 20px #ff2d2d,
+    0 0 40px #ff2d2d,
+    inset 0 0 10px #ff2d2d;
+  border: 3px solid #ff2d2d;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 15px #ff2d2d;
+}
+
+button {
+  margin-top: 30px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #333;
+  color: #fff;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+/* Dark Theme */
+.container.dark {
+  background-color: #000;
+  color: #f1f1f1;
+}
+
+.container.dark button {
+  background-color: #eee;
+  color: #111;
+}
+
+.container.dark button:hover {
+  background-color: #ccc;
+}
+
+.container.dark #clock {
+  background-color: #000;
+  color: #ff2d2d;
+  box-shadow:
+    0 0 20px #ff2d2d,
+    0 0 40px #ff2d2d,
+    inset 0 0 10px #ff2d2d;
+  border: 3px solid #ff2d2d;
+  text-shadow: 0 0 15px #ff2d2d;
+}
