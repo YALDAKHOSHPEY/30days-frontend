@@ -1,0 +1,67 @@
+* {
+    box-sizing: border-box;
+    }
+    
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      transition: background-color 0.4s, color 0.4s;
+    }
+    
+    body {
+      background-color: #ffffff;
+      color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    body.dark {
+      background-color: #121212;
+      color: #eee;
+    }
+    
+    .container {
+      text-align: center;
+      padding: 20px;
+    }
+    
+    #moodBtn {
+      font-size: 5rem;
+      padding: 30px 60px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      background: #74b9ff;
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    #moodBtn:hover {
+      transform: scale(1.05);
+    }
+    
+    #moodText {
+      font-size: 1.6rem;
+      margin-top: 20px;
+      min-height: 40px;
+    }
+    
+    #themeToggle {
+      margin-top: 40px;
+      padding: 10px 20px;
+      border: none;
+      background: #333;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    
+    body.dark #themeToggle {
+      background: #eee;
+      color: #111;
+    }
+    
