@@ -30,9 +30,9 @@ It serves as a great hands-on exercise for reinforcing basic frontend skills.
 
 ## 🛠 Technologies Used
 
-- ✨**HTML5** – For structuring the content
-- ✨**CSS3** – For styling and responsive layout (Flexbox, gradients)
-- ✨**Vanilla JavaScript** – For interactivity and quiz logic
+- **HTML5** – For structuring the content
+- **CSS3** – For styling and responsive layout (Flexbox, gradients)
+- **Vanilla JavaScript** – For interactivity and quiz logic
 
 ---
 
