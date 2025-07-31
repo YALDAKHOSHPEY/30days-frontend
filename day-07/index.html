@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced JavaScript Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <h1><i class="fab fa-js"></i> JavaScript Mastery</h1>
+                <div class="user-controls">
+                    <button id="themeToggle"><i class="fas fa-moon"></i></button>
+                    <div class="progress-indicator">
+                        <span id="progressText">0%</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <aside class="sidebar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search lessons...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <nav id="courseNav">
+                    <!-- Dynamic navigation will be inserted here -->
+                </nav>
+            </aside>
+
+            <main class="content-area">
+                <div class="lesson-view" id="lessonView">
+                    <div class="welcome-message">
+                        <h2>Welcome to JavaScript Mastery!</h2>
+                        <p>Select a lesson from the sidebar to begin your learning journey.</p>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <i class="fas fa-laptop-code"></i>
+                                <h3>Interactive Examples</h3>
+                                <p>Practice code directly in the browser</p>
+                            </div>
+                            <div class="feature-card">
+                                <i class="fas fa-tasks"></i>
+                                <h3>Challenges</h3>
+                                <p>Test your knowledge with exercises</p>
+                            </div>
+                            <div class="feature-card">
+                                <i class="fas fa-chart-line"></i>
+                                <h3>Progress Tracking</h3>
+                                <p>Monitor your learning journey</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div class="code-editor" id="codeEditorContainer">
+            <div class="editor-header">
+                <h3>Live Code Editor</h3>
+                <button id="runCode"><i class="fas fa-play"></i> Run</button>
+                <button id="closeEditor"><i class="fas fa-times"></i></button>
+            </div>
+            <textarea id="codeEditor" spellcheck="false"></textarea>
+            <div class="editor-footer">
+                <div class="output-container" id="codeOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
