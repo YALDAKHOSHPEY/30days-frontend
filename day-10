@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            padding: 20px;
+        }
+        
+        .calculator {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            min-width: 300px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .display {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 30px 25px;
+            text-align: right;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+        }
+        
+        .previous-operand {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            min-height: 28px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .current-operand {
+            font-size: clamp(2rem, 8vw, 3rem);
+            font-weight: 300;
+            margin-top: 10px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+        }
+        
+        button {
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            padding: 15px 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin: 2px;
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        button:hover::before {
+            left: 100%;
+        }
+        
+        button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+        
+        .operator {
+            background: rgba(255, 107, 107, 0.3);
+            font-weight: 500;
+        }
+        
+        .operator:hover {
+            background: rgba(255, 107, 107, 0.5);
+        }
+        
+        .equals {
+            background: linear-gradient(135deg, #ff8a00, #e52e71);
+            grid-column: span 2;
+            font-weight: 600;
+        }
+        
+        .equals:hover {
+            background: linear-gradient(135deg, #ff7b00, #d81b60);
+            box-shadow: 0 5px 15px rgba(229, 46, 113, 0.4);
+        }
+        
+        .clear, .delete {
+            background: rgba(108, 92, 231, 0.3);
+        }
+        
+        .clear:hover, .delete:hover {
+            background: rgba(108, 92, 231, 0.5);
+        }
+        
+        .zero {
+            grid-column: span 2;
+        }
+        
+        .icon {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+        }
+        
+        /* Animation for display */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .current-operand {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        /* Responsive design for smaller screens */
+        @media (max-width: 480px) {
+            .calculator {
+                border-radius: 20px;
+                max-width: 95%;
+            }
+            
+            .display {
+                padding: 20px 15px;
+                min-height: 120px;
+            }
+            
+            .buttons {
+                padding: 15px;
+                gap: 1px;
+            }
+            
+            button {
+                padding: 12px 5px;
+                min-height: 50px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .display {
+                padding: 15px 10px;
+                min-height: 100px;
+            }
+            
+            .buttons {
+                padding: 10px;
+            }
+            
+            button {
+                padding: 10px 3px;
+                min-height: 45px;
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* For very tall screens (mobile in portrait) */
+        @media (max-height: 700px) and (min-width: 481px) {
+            .calculator {
+                max-width: 350px;
+            }
+            
+            .display {
+                min-height: 120px;
+                padding: 20px;
+            }
+            
+            button {
+                padding: 12px 5px;
+                min-height: 50px;
+            }
+        }
+        
+        /* For landscape orientation on mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+            }
+            
+            .calculator {
+                max-width: 90%;
+                display: flex;
+                flex-direction: row;
+            }
+            
+            .display {
+                width: 60%;
+                min-height: auto;
+                padding: 15px;
+            }
+            
+            .buttons {
+                width: 40%;
+                padding: 10px;
+            }
+            
+            button {
+                padding: 8px 3px;
+                min-height: 40px;
+            }
+        }
+        
+        /* Fix for very small screens */
+        @media (max-width: 320px) {
+            .calculator {
+                min-width: 280px;
+            }
+            
+            button {
+                padding: 8px 2px;
+                min-height: 40px;
+                font-size: 1rem;
+            }
+            
+            .icon {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display">
+            <div class="previous-operand"></div>
+            <div class="current-operand">0</div>
+        </div>
+        <div class="buttons">
+            <button class="clear"><i class="fas fa-broom icon"></i></button>
+            <button class="delete"><i class="fas fa-backspace icon"></i></button>
+            <button class="operator"><i class="fas fa-divide"></i></button>
+            <button class="operator"><i class="fas fa-times"></i></button>
+            
+            <button class="number">7</button>
+            <button class="number">8</button>
+            <button class="number">9</button>
+            <button class="operator"><i class="fas fa-minus"></i></button>
+            
+            <button class="number">4</button>
+            <button class="number">5</button>
+            <button class="number">6</button>
+            <button class="operator"><i class="fas fa-plus"></i></button>
+            
+            <button class="number">1</button>
+            <button class="number">2</button>
+            <button class="number">3</button>
+            <button class="equals"><i class="fas fa-equals"></i></button>
+            
+            <button class="number zero">0</button>
+            <button class="number"><i class="fas fa-circle"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Get DOM elements
+        const previousOperandElement = document.querySelector('.previous-operand');
+        const currentOperandElement = document.querySelector('.current-operand');
+        const numberButtons = document.querySelectorAll('.number');
+        const operatorButtons = document.querySelectorAll('.operator');
+        const equalsButton = document.querySelector('.equals');
+        const clearButton = document.querySelector('.clear');
+        const deleteButton = document.querySelector('.delete');
+        
+        // Calculator state
+        let currentOperand = '0';
+        let previousOperand = '';
+        let operation = undefined;
+        let shouldResetScreen = false;
+        
+        // Update display
+        function updateDisplay() {
+            currentOperandElement.textContent = currentOperand;
+            if (operation != null) {
+                previousOperandElement.textContent = `${previousOperand} ${getOperationSymbol(operation)}`;
+            } else {
+                previousOperandElement.textContent = '';
+            }
+        }
+        
+        // Get operation symbol for display
+        function getOperationSymbol(operation) {
+            switch(operation) {
+                case '+': return '+';
+                case '-': return '-';
+                case '×': return '×';
+                case '÷': return '÷';
+                default: return '';
+            }
+        }
+        
+        // Reset calculator
+        function reset() {
+            currentOperand = '0';
+            previousOperand = '';
+            operation = undefined;
+        }
+        
+        // Delete last digit
+        function deleteDigit() {
+            if (currentOperand.length === 1) {
+                currentOperand = '0';
+            } else {
+                currentOperand = currentOperand.slice(0, -1);
+            }
+        }
+        
+        // Append number
+        function appendNumber(number) {
+            if (currentOperand === '0' || shouldResetScreen) {
+                currentOperand = number;
+                shouldResetScreen = false;
+            } else {
+                currentOperand += number;
+            }
+        }
+        
+        // Choose operation
+        function chooseOperation(op) {
+            if (currentOperand === '') return;
+            
+            if (previousOperand !== '') {
+                compute();
+            }
+            
+            operation = op;
+            previousOperand = currentOperand;
+            shouldResetScreen = true;
+        }
+        
+        // Compute result
+        function compute() {
+            let computation;
+            const prev = parseFloat(previousOperand);
+            const current = parseFloat(currentOperand);
+            
+            if (isNaN(prev) || isNaN(current)) return;
+            
+            switch(operation) {
+                case '+':
+                    computation = prev + current;
+                    break;
+                case '-':
+                    computation = prev - current;
+                    break;
+                case '×':
+                    computation = prev * current;
+                    break;
+                case '÷':
+                    if (current === 0) {
+                        currentOperand = 'Error';
+                        operation = undefined;
+                        previousOperand = '';
+                        return;
+                    }
+                    computation = prev / current;
+                    break;
+                default:
+                    return;
+            }
+            
+            currentOperand = computation.toString();
+            operation = undefined;
+            previousOperand = '';
+        }
+        
+        // Add decimal point
+        function addDecimal() {
+            if (shouldResetScreen) {
+                currentOperand = '0.';
+                shouldResetScreen = false;
+                return;
+            }
+            
+            if (!currentOperand.includes('.')) {
+                currentOperand += '.';
+            }
+        }
+        
+        // Event listeners for number buttons
+        numberButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (button.innerHTML.includes('fa-circle')) {
+                    addDecimal();
+                } else {
+                    appendNumber(button.textContent);
+                }
+                updateDisplay();
+            });
+        });
+        
+        // Event listeners for operator buttons
+        operatorButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                let op;
+                if (button.innerHTML.includes('fa-plus')) {
+                    op = '+';
+                } else if (button.innerHTML.includes('fa-minus')) {
+                    op = '-';
+                } else if (button.innerHTML.includes('fa-times')) {
+                    op = '×';
+                } else if (button.innerHTML.includes('fa-divide')) {
+                    op = '÷';
+                }
+                chooseOperation(op);
+                updateDisplay();
+            });
+        });
+        
+        // Event listener for equals button
+        equalsButton.addEventListener('click', () => {
+            compute();
+            updateDisplay();
+        });
+        
+        // Event listener for clear button
+        clearButton.addEventListener('click', () => {
+            reset();
+            updateDisplay();
+        });
+        
+        // Event listener for delete button
+        deleteButton.addEventListener('click', () => {
+            deleteDigit();
+            updateDisplay();
+        });
+        
+        // Keyboard support
+        document.addEventListener('keydown', (event) => {
+            if (event.key >= '0' && event.key <= '9') {
+                appendNumber(event.key);
+            } else if (event.key === '.') {
+                addDecimal();
+            } else if (event.key === '+' || event.key === '-') {
+                chooseOperation(event.key);
+            } else if (event.key === '*' || event.key === 'x') {
+                chooseOperation('×');
+            } else if (event.key === '/') {
+                chooseOperation('÷');
+            } else if (event.key === 'Enter' || event.key === '=') {
+                compute();
+            } else if (event.key === 'Escape') {
+                reset();
+            } else if (event.key === 'Backspace') {
+                deleteDigit();
+            }
+            updateDisplay();
+        });
+        
+        // Initialize display
+        updateDisplay();
+    </script>
+</body>
+</html>
