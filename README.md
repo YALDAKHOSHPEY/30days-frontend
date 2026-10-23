@@ -1,4 +1,4 @@
-# 💻 30 Days of Frontend
+# 💻 30 Days of Fronten
 
 Welcome to **30 Days of Frontend** – a self-paced challenge to improve your frontend skills by building small daily projects using HTML, CSS, and JavaScript.
 
